@@ -8,6 +8,8 @@ from datetime import datetime
 
 # 3rd party modules
 from flask import make_response, abort
+import requests
+import json
 
 
 
@@ -41,6 +43,12 @@ def read_all():
     with the complete lists of people
     :return:        json string of list of people
     """
+    #output users to console
+    #URL = "https://bpdts-test-app.herokuapp.com/users"
+    URL = "https://bpdts-test-app.herokuapp.com/city/London/users"
+    r = requests.get(URL)
+    j=r.json()
+    print(j)
     # Create the list of people from our data
     return [PEOPLE[key] for key in sorted(PEOPLE.keys())]
 
