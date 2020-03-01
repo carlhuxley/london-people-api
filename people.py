@@ -40,7 +40,7 @@ def read_london(londonloc):
 
 def miles_from_london(coordinates):
     """
-    This function takes latitude and longitude coordinates tuple as a parameter.
+    This function takes latitude and longitude coordinates tuple as an argument.
     Geopy will calculate the distance the location is from London
     :return:        number miles distance from London
     """
