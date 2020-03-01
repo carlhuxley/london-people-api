@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   description: This is the swagger file that goes with our server code
   version: "1.0.0"
-  title: Swagger ReST Article
+  title: Swagger ReST API Test
 consumes:
   - application/json
 produces:
@@ -12,21 +12,20 @@ basePath: /api
 
 # Paths supported by the server application
 paths:
-  #/user/{location}/london_user:
-  /user/london_user:
+  /{londonloc}/londonpeople:
     get:
-      operationId: user.read_london
+      operationId: people.read_london
       tags:
-        - User
-      summary: Return people 50 miles of or in London
+        - People
+      summary: Return people listed as in or location within 50 miles of London
       description: Returns people who are listed as either living in London, or whose current coordinates are within 50 miles of London
-      #parameters:
-        #- name: location
-         # in: path
-          # type: string
-          # required: true
-          # default: "in"
-          # description: Users in or within 50 miles of London
+      parameters:
+        - name: londonloc
+          in: path
+          type: string
+          required: true
+          default: "listed"
+          description: People listed as located in London (path = 'listed') or people with coordinates showing they are located within 50 miles of London (path = 'within50'). 
       responses:
         200:
           description: Successfully read user list operation
@@ -48,4 +47,6 @@ paths:
                   type: number
                 longitude:
                   type: number
+                city: 
+                  type: string
                 
