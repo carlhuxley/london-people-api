@@ -18,26 +18,11 @@ def get_timestamp():
 
 
 # Data to serve with our API
-PEOPLE = {
-    "Farrell": {
-        "fname": "Doug",
-        "lname": "Farrell",
-        "timestamp": get_timestamp(),
-    },
-    "Brockman": {
-        "fname": "Kent",
-        "lname": "Brockman",
-        "timestamp": get_timestamp(),
-    },
-    "Easter": {
-        "fname": "Bunny",
-        "lname": "Easter",
-        "timestamp": get_timestamp(),
-    },
-}
+
+#print(PEOPLE)
 
 
-def read_all():
+def read_london():
     """
     This function responds to a request for /api/people
     with the complete lists of people
@@ -47,8 +32,8 @@ def read_all():
     #URL = "https://bpdts-test-app.herokuapp.com/users"
     URL = "https://bpdts-test-app.herokuapp.com/city/London/users"
     r = requests.get(URL)
-    j=r.json()
-    print(j)
+    PEOPLE=r.json()
+    print (PEOPLE)
     # Create the list of people from our data
     return [PEOPLE[key] for key in sorted(PEOPLE.keys())]
 
