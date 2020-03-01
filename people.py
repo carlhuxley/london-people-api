@@ -10,12 +10,16 @@ from datetime import datetime
 from flask import make_response, abort
 import requests
 import json
+import geopy
+from geopy import distance
 
 # Data to serve with our API
 
 URL = "https://bpdts-test-app.herokuapp.com/city/London/users"
 r = requests.get(URL)
 PEOPLE=r.json()
+
+#URL = "https://bpdts-test-app.herokuapp.com/users"
 
 def read_london(londonloc):
     """
@@ -24,12 +28,22 @@ def read_london(londonloc):
     coordinates are within 50 miles of London
     :return:        json string of list of London users
     """
-    #output users to console
-    #URL = "https://bpdts-test-app.herokuapp.com/users"
     
     # Create the list of people from our data
     if londonloc == "listed":
         return PEOPLE
-        
 
+    elif londonloc == "within50":
+        london = (51.50853, -0.12574)
+        maidstone = (51.272644, 0.525270)
+        print("The distance between London and Maidstone is " + str(miles_from_london(maidstone)) + " miles")
 
+def miles_from_london(coordinates):
+    """
+    This function takes latitude and longitude coordinates tuple as a parameter.
+    Geopy will calculate the distance the location is from London
+    :return:        number miles distance from London
+    """
+    london_coordinates = (51.50853, -0.12574)
+    miles = distance.great_circle(london_coordinates, coordinates).miles
+    return miles
