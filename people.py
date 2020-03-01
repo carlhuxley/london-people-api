@@ -15,15 +15,19 @@ from geopy import distance
 
 # Data to serve with our API
 
-URL = "https://bpdts-test-app.herokuapp.com/city/London/users"
-r = requests.get(URL)
-PEOPLE=r.json()
+def get_people_json(URL):
+    """
+    This function takes a URL as an argument and returns a
+    json object from the https://bpdts-test-app.herokuapp.com/ API
+    """
+    r = requests.get(URL)
+    return r.json()
 
 #URL = "https://bpdts-test-app.herokuapp.com/users"
 
 def read_london(londonloc):
     """
-    This function responds to a request for /api/listed/londonuser
+    This function responds to a request for /api/listed/londonpeople
     with a lists of users listed as living in London or whose current 
     coordinates are within 50 miles of London
     :return:        json string of list of London users
@@ -31,7 +35,9 @@ def read_london(londonloc):
     
     # Create the list of people from our data
     if londonloc == "listed":
-        return PEOPLE
+        #return PEOPLE
+        URL = "https://bpdts-test-app.herokuapp.com/city/London/users"
+        return get_people_json(URL)
 
     elif londonloc == "within50":
         london = (51.50853, -0.12574)
