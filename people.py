@@ -1,5 +1,5 @@
 """
-This is the user module and supports all the ReST actions for the
+This is the people module and supports all the ReST actions for the
 PEOPLE collection
 """
 
@@ -35,14 +35,18 @@ def read_london(londonloc):
     
     # Create the list of people from our data
     if londonloc == "listed":
-        #return PEOPLE
+        #return people listed as being located in London
         URL = "https://bpdts-test-app.herokuapp.com/city/London/users"
         return get_people_json(URL)
 
     elif londonloc == "within50":
-        london = (51.50853, -0.12574)
-        maidstone = (51.272644, 0.525270)
-        print("The distance between London and Maidstone is " + str(miles_from_london(maidstone)) + " miles")
+        #return people located within 50 miles of London
+        URL = "https://bpdts-test-app.herokuapp.com/users"
+        all_people = get_people_json(URL)
+
+        # Filter python objects with list comprehensions
+        output_dict = [x for x in all_people if miles_from_london((x['latitude'], x['longitude'])) <= 50]
+        return output_dict
 
 def miles_from_london(coordinates):
     """
