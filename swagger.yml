@@ -47,6 +47,5 @@ paths:
                   type: number
                 longitude:
                   type: number
-                city: 
-                  type: string
+               
                 

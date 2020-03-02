@@ -10,10 +10,8 @@ from datetime import datetime
 from flask import make_response, abort
 import requests
 import json
-import geopy
-from geopy import distance
-
-# Data to serve with our API
+from geopy.distance import geodesic
+#from geopy import distance
 
 def get_people_json(URL):
     """
@@ -23,8 +21,6 @@ def get_people_json(URL):
     r = requests.get(URL)
     return r.json()
 
-#URL = "https://bpdts-test-app.herokuapp.com/users"
-
 def read_london(londonloc):
     """
     This function responds to a request for /api/listed/londonpeople
@@ -33,27 +29,26 @@ def read_london(londonloc):
     :return:        json string of list of London users
     """
     
-    # Create the list of people from our data
     if londonloc == "listed":
-        #return people listed as being located in London
+        # Return people listed as being located in London
         URL = "https://bpdts-test-app.herokuapp.com/city/London/users"
         return get_people_json(URL)
 
     elif londonloc == "within50":
-        #return people located within 50 miles of London
+        # Return people located within 50 miles of London
         URL = "https://bpdts-test-app.herokuapp.com/users"
         all_people = get_people_json(URL)
 
-        # Filter python objects with list comprehensions
+        # Create output dictionary of all people located within 50 miles of London
         output_dict = [x for x in all_people if miles_from_london((x['latitude'], x['longitude'])) <= 50]
         return output_dict
 
 def miles_from_london(coordinates):
     """
-    This function takes latitude and longitude coordinates tuple as an argument.
-    Geopy will calculate the distance the location is from London
+    This function takes a latitude and longitude coordinates tuple as an argument.
+    Geopy calculates the geodesic distance between two points.
     :return:        number miles distance from London
     """
     london_coordinates = (51.50853, -0.12574)
-    miles = distance.great_circle(london_coordinates, coordinates).miles
+    miles = geodesic(london_coordinates, coordinates).miles
     return miles
